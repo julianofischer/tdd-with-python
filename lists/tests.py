@@ -11,8 +11,13 @@ class HomePageTest(TestCase):
         self.assertEqual(found.func, home_page)
 
     
-    def test_home_page_returns_correct_html(self):
+    def test_uses_home_template(self):
         response = self.client.get('/')
         # html = response.content.decode('utf-8')
         # expected_html = render_to_string('lists/home.html')
         self.assertTemplateUsed(response, 'lists/home.html')
+
+    
+    def test_can_save_a_POST_request(self):
+        response = self.client.post('/', data={'item_text': 'A new list item'})
+        self.assertIn('A new list item', response.content.decode())
